@@ -12,10 +12,11 @@ class Connection:
     # constructor
     def __init__(self, database):
         self.database = database
+        self.connObj = sqlite3.connect(self.database)
+        self.cursorObj = self.connObj.cursor()
 
     # method to get the connection object
     def getConnection(self):
-        self.connObj = sqlite3.connect(self.database)
         if self.connObj is None:
             return None
         else:
@@ -23,8 +24,6 @@ class Connection:
 
     # method to get the cursor object
     def getCursor(self):
-        self.connObj = sqlite3.connect(self.database)
-        self.cursorObj = self.connObj.cursor()
         if self.cursorObj is None:
             return None
         else:
