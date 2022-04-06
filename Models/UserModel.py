@@ -55,3 +55,43 @@ class User:
             return False
         else:
             return True
+
+    # method to delete the model
+    def deleteDataById(self, user_id):
+        try:
+            self.connObj.getCursor().execute('''
+                DELETE FROM Users
+                WHERE
+                id = ?;
+            ''', (user_id,))
+            self.connObj.commitChanges()
+        except:
+            return False
+        else:
+            return True
+
+    # function to get the user by id
+    def getDataById(self, user_id):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Users
+                WHERE
+                id = ?;
+            ''', (user_id,))
+            row = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return row
+
+    # function to get all data
+    def getAllData(self):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Users
+            ''')
+            rows = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return rows

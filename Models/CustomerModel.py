@@ -52,3 +52,43 @@ class Customer:
             return False
         else:
             return True
+
+    # method to delete the model
+    def deleteDataById(self, customer_id):
+        try:
+            self.connObj.getCursor().execute('''
+                DELETE FROM Customers
+                WHERE
+                id = ?;
+            ''', (customer_id_id,))
+            self.connObj.commitChanges()
+        except:
+            return False
+        else:
+            return True
+
+    # function to get the customer by id
+    def getDataById(self, customer_id):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Customers
+                WHERE
+                id = ?;
+            ''', (customer_id,))
+            row = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return row
+
+    # function to get all data
+    def getAllData(self):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Customers
+            ''')
+            rows = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return rows
