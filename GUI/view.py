@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 from Models.UserModel import User
 from Models.ConnectionModel import Connection
 
-# connectionObject = Connection("Database/database.db")
+connectionObject = Connection("../Database/database.db")
 
 def main():
     root = Tk()
@@ -121,8 +121,15 @@ class LoginWindow:
 
     def sign_up(self):
         user = User(connectionObject)
-        # user.insertData(self.signup_username)
-        messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in.')
+        fullname = self.signup_fullname.get()
+        username=self.signup_username.get()
+        email=self.signup_email.get()
+        password=self.signup_password.get()
+        re_password=self.signup_confirm_password.get()
+        if user.insertData(fullname,username,email,password,"ADMIN"):
+            messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in.')
+        else:
+            messagebox.showerror("Signup Failed!","User not created.")
 
 
 class AppWindow:
