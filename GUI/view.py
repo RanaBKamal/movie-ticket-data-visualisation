@@ -6,9 +6,10 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from Models.UserModel import User
 from Models.ConnectionModel import Connection
-connectionObject = Connection("Database/database.db")
-def main():
 
+# connectionObject = Connection("Database/database.db")
+
+def main():
     root = Tk()
     LoginWindow(root)
 
@@ -62,36 +63,42 @@ class LoginWindow:
         # signup header label
         self.signupheader_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Please Sign Up')
         self.signupheader_label.grid(row=0, column=0, pady=10, sticky="ns,ew")
+        # signup fullname label and entry
+        self.fullname_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Full Name')
+        self.fullname_label.grid(row=1, column=0, sticky="w", padx=10)
+        self.signup_fullname = StringVar()
+        self.fullname_entry = Entry(self.signup_frame, width=40, textvariable=self.signup_fullname)
+        self.fullname_entry.grid(row=2, column=0, padx=10, pady=10, ipadx=5, ipady=3)
         # signup email label and entry
         self.email_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Email')
-        self.email_label.grid(row=1, column=0, sticky="w", padx=10)
+        self.email_label.grid(row=3, column=0, sticky="w", padx=10)
         self.signup_email = StringVar()
         self.email_entry = Entry(self.signup_frame, width=40, textvariable=self.signup_email)
-        self.email_entry.grid(row=2, column=0, padx=10, pady=10, ipadx=5, ipady=3)
+        self.email_entry.grid(row=4, column=0, padx=10, pady=10, ipadx=5, ipady=3)
         # signup username label and entry
         self.username_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Username')
-        self.username_label.grid(row=3, column=0, sticky="w", padx=10)
+        self.username_label.grid(row=5, column=0, sticky="w", padx=10)
         self.signup_username = StringVar()
         self.username_entry = Entry(self.signup_frame, width=40, textvariable=self.signup_username)
-        self.username_entry.grid(row=4, column=0, padx=10, pady=10, ipadx=5, ipady=3)
+        self.username_entry.grid(row=6, column=0, padx=10, pady=10, ipadx=5, ipady=3)
         # signup password label and entry
         self.password_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Password')
-        self.password_label.grid(row=5, column=0, sticky="w", padx=10)
+        self.password_label.grid(row=7, column=0, sticky="w", padx=10)
         self.signup_password = StringVar()
         self.password_entry = Entry(self.signup_frame, width=40, show='*', textvariable=self.signup_password)
-        self.password_entry.grid(row=6, column=0, padx=10, pady=10, ipadx=5, ipady=3)
+        self.password_entry.grid(row=8, column=0, padx=10, pady=10, ipadx=5, ipady=3)
         # signup confirm password label and entry
         self.confirm_password_label = Label(self.signup_frame, fg='#095e79', bg='white', text='Confirm Password')
-        self.confirm_password_label.grid(row=7, column=0, sticky="w", padx=10)
+        self.confirm_password_label.grid(row=9, column=0, sticky="w", padx=10)
         self.signup_confirm_password = StringVar()
         self.confirm_password_entry = Entry(self.signup_frame, width=40, show='*', textvariable=self.signup_confirm_password)
-        self.confirm_password_entry.grid(row=8, column=0, padx=10, pady=10, ipadx=5, ipady=3)
+        self.confirm_password_entry.grid(row=10, column=0, padx=10, pady=10, ipadx=5, ipady=3)
         # signup button
         self.signup_btn = Button(self.signup_frame, command=self.sign_up,text='SIGN UP', bg='#095e79', fg='white', width=20)
-        self.signup_btn.grid(row=9, column=0, padx=10, pady=10, sticky="ew,ns")
+        self.signup_btn.grid(row=11, column=0, padx=10, pady=10, sticky="ew,ns")
         # back button
         self.back_btn = Button(self.signup_frame, command=show_login, text='BACK', bg='green', fg='white', width=20)
-        self.back_btn.grid(row=10, column=0, padx=10, pady=10, sticky="ew,ns")
+        self.back_btn.grid(row=12, column=0, padx=10, pady=10, sticky="ew,ns")
 
     def app_window(self):
         # login validation goes here
