@@ -1,29 +1,29 @@
 from datetime import datetime
 import numpy as np
 
-import Models.ConnectionModel as ConnectionModel
-import Models.UserModel as UserModel
-import Models.CustomerModel as CustomerModel
-import Models.MovieModel as MovieModel
-import Models.TicketModel as TicketModel
+from Models.ConnectionModel import Connection
+from Models.UserModel import User
+from Models.CustomerModel import Customer
+from Models.MovieModel import Movie
+from Utils.MovieSeatHelper import MovieSeatHelper
+from Models.TicketModel import Ticket
 
-connectionObject = ConnectionModel.Connection("Database/database.db")
+connectionObject = Connection("Database/database.db")
 
-customerModel = CustomerModel.Customer(connectionObject)
-movieModel = MovieModel.Movie(connectionObject)
+customerModel = Customer(connectionObject)
+movieModel = Movie(connectionObject)
 
 # creating tickets model
-# ticketModel = TicketModel.Ticket(connectionObject)
-# userModel = UserModel.User(connectionObject)
+# ticketModel = Ticket(connectionObject)
+# userModel = User(connectionObject)
 # user = userModel.getAllData();
 # customer = customerModel.getAllData()
 # movie = movieModel.getDataById(1)
 # ticket = ticketModel.getDataById(1)
 # print(movie[0][2])
 
-movie_status = '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
-print(np.fromstring(movie_status, dtype=bool, sep=','))
-
 # userModel.insertData("Kamal B. Rana", "kamalbrana", "kamal@kamal.com", "hello", "Admin")
-
+print(MovieSeatHelper.createNewMovieSeats())
+my_arr = MovieSeatHelper.convertStringArrayToArray(MovieSeatHelper.createNewMovieSeats())
+print(my_arr)
 connectionObject.closeConnection()
