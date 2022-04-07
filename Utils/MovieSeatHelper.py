@@ -14,5 +14,53 @@ class MovieSeatHelper:
 
     @staticmethod
     def convertStringArrayToArray(seat_status):
-        seat_status_array = np.fromstring(seat_status, dtype=bool)
+        seat_status = seat_status.strip('[]')
+        seat_status_array = np.fromstring(seat_status, dtype=int, sep=',')
+        return seat_status_array
+
+    @staticmethod
+    def convertArrayToStringArray(seat_status_array):
+        return np.array2string(seat_status_array, separator=',')
+
+    @staticmethod
+    def getSeatStatus(row, col, seat_status_array):
+        position_counter = 0
+        for i in range(10):
+            for j in range(6):
+                if i == row and j == col:
+                    return seat_status_array[position_counter]
+                else:
+                    return False
+                position_counter += 1
+
+    @staticmethod
+    def bookSeatAt(row, col, seat_status_array):
+        position_counter = 0
+        break_out_flag = False
+        for i in range(10):
+            for j in range(6):
+                if i == row and j == col:
+                    seat_status_array[position_counter] = True
+                    break_out_flag = True
+                    break
+                position_counter += 1
+
+            if break_out_flag:
+                break
+        return seat_status_array
+
+    @staticmethod
+    def unBookSeatAt(row, col, seat_status_array):
+        position_counter = 0
+        break_out_flag = False
+        for i in range(10):
+            for j in range(6):
+                if i == row and j == col:
+                    seat_status_array[position_counter] = False
+                    break_out_flag = True
+                    break
+                position_counter += 1
+
+            if break_out_flag:
+                break
         return seat_status_array

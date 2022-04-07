@@ -26,4 +26,8 @@ movieModel = Movie(connectionObject)
 print(MovieSeatHelper.createNewMovieSeats())
 my_arr = MovieSeatHelper.convertStringArrayToArray(MovieSeatHelper.createNewMovieSeats())
 print(my_arr)
+my_arr = MovieSeatHelper.bookSeatAt(0, 0, my_arr)
+print(my_arr)
+print(MovieSeatHelper.convertArrayToStringArray(my_arr))
+
 connectionObject.closeConnection()
