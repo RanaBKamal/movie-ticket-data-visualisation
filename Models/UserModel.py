@@ -2,6 +2,7 @@
 # Written For : Term Project Python II, W22
 # Description: this is the model/class to access the Users table
 from datetime import datetime
+import hashlib
 
 
 class User:
@@ -45,11 +46,12 @@ class User:
     # method to insert data to the users table
     def insertData(self, full_name, username, email, password, user_type):
         try:
+            hashed_password = hashlib.md5(password)
             self.connObj.getCursor().execute('''
                 INSERT INTO Users(full_name, username, email, password,user_type)
                 VALUES
                 (?, ?, ?, ?, ?);
-            ''', (full_name, username, email, password, user_type))
+            ''', (full_name, username, email, hashed_password, user_type))
             self.connObj.commitChanges()
         except:
             return False
