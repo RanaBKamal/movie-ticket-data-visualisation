@@ -5,6 +5,7 @@ from tkcalendar import DateEntry
 from tkinter import filedialog
 from PIL import Image, ImageTk
 from Models.UserModel import User
+from Models.MovieModel import Movie
 from Models.ConnectionModel import Connection
 
 connectionObject = Connection("../Database/database.db")
