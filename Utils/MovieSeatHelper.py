@@ -8,7 +8,7 @@ import numpy as np
 class MovieSeatHelper:
 
     @staticmethod
-    def createNewMovieSeats():
+    def createNewMovieSeatsStringArray():
         initial_seats = np.zeros(60, dtype=int)
         return np.array2string(initial_seats, separator=',')
 

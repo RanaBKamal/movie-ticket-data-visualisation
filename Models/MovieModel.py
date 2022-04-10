@@ -93,14 +93,27 @@ class Movie:
         else:
             return rows
 
+    # get latest movie
+    def getLatestMovie(self):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Movies  
+                ORDER BY created_at DESC LIMIT 1
+            ''')
+            row = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return row
+
     # update seat status
-    def updateSeatStatus(self, movie_id, seat_status):
+    def updateSeatStatus(self, movie_id, seat_status_string_array):
         try:
             self.connObj.getCursor().execute('''
                 UPDATE Movies
                 SET seat_status = ?
                 WHERE id = ?;
-            ''', (seat_status, movie_id))
+            ''', (seat_status_string_array, movie_id))
             self.connObj.commitChanges();
         except:
             return False
