@@ -102,22 +102,18 @@ class LoginWindow:
 
     def app_window(self):
         # login validation goes here
-        # self.loginUsername = self.login_username.get()
-        # self.loginPassword = self.login_password.get()
-        # if(self.loginUsername =='' or self.loginPassword==''):
-        #     messagebox.showerror('Error!', 'Please enter username and password to login!')
-        # elif(self.loginUsername=='chiran' and self.loginPassword=='11'):
-        #     self.main_app_window = Frame(self.master)
-        #     self.main_app_window.grid(row=0, column=0)
-        #     self.login_frame.destroy()
-        #     AppWindow(self.main_app_window)
-        # else:
-        #     messagebox.showerror('Error!', 'Username and Password does not match!')
-
-        self.main_app_window = Frame(self.master)
-        self.main_app_window.grid(row=0, column=0)
-        self.login_frame.destroy()
-        AppWindow(self.main_app_window)
+        loginUsername = self.login_username.get()
+        loginPassword = self.login_password.get()
+        user = User(connectionObject)
+        if(loginUsername =='' or loginPassword==''):
+            messagebox.showerror('Error!', 'Please enter username and password to login!')
+        elif(user.tryLogin(loginUsername,loginPassword)):
+            self.main_app_window = Frame(self.master)
+            self.main_app_window.grid(row=0, column=0)
+            self.login_frame.destroy()
+            AppWindow(self.main_app_window)
+        else:
+            messagebox.showerror('Error!', 'Username and Password does not match!')
 
     def sign_up(self):
         user = User(connectionObject)
