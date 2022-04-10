@@ -127,7 +127,12 @@ class LoginWindow:
         password=self.signup_password.get()
         re_password=self.signup_confirm_password.get()
         if user.insertData(fullname,username,email,password,"ADMIN"):
-            messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in.')
+            messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in. Please go back to login page for login.')
+            self.fullname_entry.delete(0, END)
+            self.email_entry.delete(0, END)
+            self.username_entry.delete(0, END)
+            self.password_entry.delete(0, END)
+            self.confirm_password_entry.delete(0, END)
         else:
             messagebox.showerror("Signup Failed!","User not created.")
 
