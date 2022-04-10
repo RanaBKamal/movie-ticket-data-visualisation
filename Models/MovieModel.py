@@ -1,6 +1,8 @@
 # Author(Team) : Kamal_Sandip_Chiranjibi
 # Written For : Term Project Python II, W22
 # Description: this is the model/class to access the Users table
+
+from Utils.MovieSeatHelper import MovieSeatHelper
 class Movie:
     connObj = None
 
@@ -115,6 +117,17 @@ class Movie:
                 WHERE id = ?;
             ''', (seat_status_string_array, movie_id))
             self.connObj.commitChanges();
+        except:
+            return False
+        else:
+            return True
+
+    # method to create new movie to the movies table
+    def createNewMovie(self, movie_name, movie_type, movie_image, release_date):
+        # create new seat status here
+        try:
+            seat_status = MovieSeatHelper.createNewMovieSeatsStringArray()
+            self.insertData(movie_name, seat_status, movie_type, movie_image, release_date)
         except:
             return False
         else:
