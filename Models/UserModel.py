@@ -97,3 +97,20 @@ class User:
             return False
         else:
             return rows
+
+    # function to check if the given username or password is correct or not
+    def tryLogin(self, username, password):
+        try:
+            current_password = hashlib.md5(password.encode("utf-8")).hexdigest()
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Users
+                WHERE
+                username = ? AND password = ?;
+            ''', (username, current_password))
+            row = self.connObj.getCursor().fetchall();
+
+        except:
+            return False
+        else:
+            return len(row)
+
