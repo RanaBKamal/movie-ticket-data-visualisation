@@ -46,7 +46,7 @@ class User:
     # method to insert data to the users table
     def insertData(self, full_name, username, email, password, user_type):
         try:
-            hashed_password = hashlib.md5(password)
+            hashed_password = hashlib.md5(password.encode("utf-8")).hexdigest()
             self.connObj.getCursor().execute('''
                 INSERT INTO Users(full_name, username, email, password,user_type)
                 VALUES
