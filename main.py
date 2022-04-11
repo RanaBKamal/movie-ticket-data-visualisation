@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 import numpy as np
 
 from Models.ConnectionModel import Connection
@@ -12,7 +12,7 @@ connectionObject = Connection("Database/database.db")
 
 customerModel = Customer(connectionObject)
 movieModel = Movie(connectionObject)
-print(movieModel.getLatestMovie()[0])
+print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
 
 # creating tickets model
 # ticketModel = Ticket(connectionObject)

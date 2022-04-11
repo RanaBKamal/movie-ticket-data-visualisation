@@ -47,7 +47,7 @@ class Movie:
             self.connObj.getCursor().execute('''
                     INSERT INTO Movies(movie_name, seat_status, movie_type, movie_image, release_date)
                     VALUES
-                    (?, ?, ?, ?);
+                    (?, ?, ?, ?, ?);
                 ''', (movie_name, seat_status, movie_type, movie_image, release_date))
             self.connObj.commitChanges()
         except:
@@ -125,10 +125,8 @@ class Movie:
     # method to create new movie to the movies table
     def createNewMovie(self, movie_name, movie_type, movie_image, release_date):
         # create new seat status here
-        try:
-            seat_status = MovieSeatHelper.createNewMovieSeatsStringArray()
-            self.insertData(movie_name, seat_status, movie_type, movie_image, release_date)
-        except:
-            return False
-        else:
+        seat_status = MovieSeatHelper.createNewMovieSeatsStringArray()
+        if self.insertData(movie_name, seat_status, movie_type, movie_image, release_date):
             return True
+        else:
+            return False
