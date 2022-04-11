@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 from Models.UserModel import User
 from Models.MovieModel import Movie
 from Models.ConnectionModel import Connection
+from Utils.MovieSeatHelper import MovieSeatHelper
 
 connectionObject = Connection("../Database/database.db")
 
@@ -154,12 +155,19 @@ class AppWindow:
         self.book_movie_label = Label(self.seat_frame,text="Click on movie seat below to book movie ticket!", fg="#095e79", bg="white")
         self.book_movie_label.grid(row=0, column=0, padx=10, pady=10,columnspan=10)
 
-        seat_status = [0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0]
+        # querying latest movie and displaying image, movie name, type, release date, and seat status
+        movieModel = Movie(connectionObject)
+        current_movie = movieModel.getLatestMovie()
+        if current_movie:
+            seatStringArray = current_movie[0][2]
+        else:
+            seatStringArray = "[]"
+        seatArray = MovieSeatHelper.convertStringArrayToArray(seatStringArray)
 
         current_state = 0
         for i in range(6):
             for j in range(10):
-                if seat_status[current_state] == 0:
+                if seatArray[current_state] == 0:
                     self.movie_seat_btn = Button(self.seat_frame,state=NORMAL,command=self.book_movie_screen,width=8,height=2,text=(i*10)+1 +j,bg="green",fg="white")
                     self.movie_seat_btn.grid(row=i+1, column=j, padx=5, pady=5)
                 else:

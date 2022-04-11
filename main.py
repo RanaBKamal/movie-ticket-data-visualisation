@@ -12,7 +12,16 @@ connectionObject = Connection("Database/database.db")
 
 customerModel = Customer(connectionObject)
 movieModel = Movie(connectionObject)
-print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
+# print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
+current_movie = movieModel.getLatestMovie()
+
+if current_movie:
+    seatStringArray = current_movie[0][2]
+else:
+    seatStringArray = "[]";
+seatArray = MovieSeatHelper.convertStringArrayToArray(seatStringArray)
+print(seatArray)
+
 
 # creating tickets model
 # ticketModel = Ticket(connectionObject)
@@ -24,7 +33,7 @@ print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
 # print(movie[0][2])
 
 # userModel.insertData("Kamal B. Rana", "kamalbrana", "kamal@kamal.com", "hello", "Admin")
-print(MovieSeatHelper.createNewMovieSeatsStringArray())
+# print(MovieSeatHelper.createNewMovieSeatsStringArray())
 
 # my_arr = MovieSeatHelper.bookSeatAt(0, 0, my_arr)
 # print(my_arr)
