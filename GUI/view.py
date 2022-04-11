@@ -8,6 +8,8 @@ from Models.UserModel import User
 from Models.MovieModel import Movie
 from Models.ConnectionModel import Connection
 from Utils.MovieSeatHelper import MovieSeatHelper
+import uuid
+import os
 
 connectionObject = Connection("../Database/database.db")
 
@@ -152,6 +154,14 @@ class AppWindow:
         self.add_movie_btn = Button(self.movie_frame, command=self.add_movie_screen,width=25, text="Add Movie", bg="#095e79", fg="white")
         self.add_movie_btn.grid(row=0, column=0, padx=10, pady=10)
 
+        # movie poster frame
+        self.movie_poster_frame = Frame(self.master, bg="white")
+        self.movie_poster_frame.grid(row=0, column=2, padx=20, pady=20)
+
+        # movie poster frame
+        self.movie_poster_frame = Frame(self.master, bg="white")
+        self.movie_poster_frame.grid(row=0, column=2, padx=5, pady=20,sticky="ne")
+
         self.book_movie_label = Label(self.seat_frame,text="Click on movie seat below to book movie ticket!", fg="#095e79", bg="white")
         self.book_movie_label.grid(row=0, column=0, padx=10, pady=10,columnspan=10)
 
@@ -178,15 +188,36 @@ class AppWindow:
 
                 current_state += 1
 
+        global current_movie_img
+        global current_img
+        current_movie_img = Image.open(os.path.abspath(current_movie[0][7]))
+        print(os.path.abspath(current_movie[0][7]))
+        current_img = ImageTk.PhotoImage(current_movie_img)
+        self.current_movie_image_label = Label(self.movie_poster_frame, image=current_img, bg="white")
+        self.current_movie_image_label.grid(row=0, column=0, sticky="ns,ew", padx=10, pady=5)
+
     def add_movie_screen(self):
         def add_movie():
-            messagebox.showinfo('Movie Added!','A movie is added successfully!')
+            movie_modal = Movie(connectionObject)
+            name = self.movie_name.get()
+            type = self.movie_type.get()
+            release_date =self.movie_release_date.get()
+            print(name,type,release_date, new_path)
+            if(movie_modal.createNewMovie(name, type,new_path, release_date)):
+                messagebox.showinfo('Movie Added!','A movie is added successfully!')
+
+            else:
+                messagebox.showerror("Error Occurred!","Movie could not be added.")
 
         def upload_movie_image():
             global img
+            global image_path
+            global new_path
             image_path = filedialog.askopenfilename(parent=self.add_movie_window)
             img = Image.open(image_path)
             img = img.resize((200, 200), Image.ANTIALIAS)
+            new_path = "../Images/" + str(uuid.uuid4()) + ".jpg"
+            img.save(new_path)
             img = ImageTk.PhotoImage(img)
             self.image_label = Label(self.add_movie_window, image=img, bg="white")
             self.image_label.grid(row=6, column=0,sticky="ns,ew",padx=10, pady=5)
@@ -217,7 +248,8 @@ class AppWindow:
         self.movie_img_upload_btn.grid(row=5,column=0,padx=10, pady=5, sticky="e")
         self.release_date_label = Label(self.add_movie_window, text="Release Date",fg="#095e79",bg="white")
         self.release_date_label.grid(row=7, column=0, sticky="w",padx=10, pady=5)
-        self.release_date_entry = DateEntry(self.add_movie_window,width=45)
+        self.movie_release_date = StringVar()
+        self.release_date_entry = DateEntry(self.add_movie_window,width=45, textvariable=self.movie_release_date)
         self.release_date_entry.grid(row=8, column=0, sticky="w",padx=10, pady=5,ipady=3)
         self.add_movie_btn = Button(self.add_movie_window, command=add_movie,text="Add Movie",bg="#095e79",fg="white")
         self.add_movie_btn.grid(row=9, column=0, sticky="ns,ew",padx=10, pady=10)
