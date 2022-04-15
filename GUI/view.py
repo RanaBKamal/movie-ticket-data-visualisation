@@ -182,14 +182,10 @@ class AppWindow:
         seatArray = MovieSeatHelper.convertStringArrayToArray(seatStringArray)
 
         current_state = 0
-        global seat_row_position
-        global seat_column_position
         for i in range(6):
             for j in range(10):
                 if seatArray[current_state] == 0:
                     self.movie_seat_btn = Button(self.seat_frame,state=NORMAL,command=self.book_movie_screen,width=8,height=2,text=(i*10)+1 +j,bg="green",fg="white")
-                    seat_row_position= i+1
-                    seat_column_position= j
                     self.movie_seat_btn.grid(row=i+1, column=j, padx=5, pady=5)
                 else:
                     self.movie_seat_btn = Button(self.seat_frame, state=NORMAL, command=self.book_movie_screen, width=8,
