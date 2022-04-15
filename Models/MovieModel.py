@@ -100,7 +100,7 @@ class Movie:
         try:
             self.connObj.getCursor().execute('''
                 SELECT * FROM Movies  
-                ORDER BY created_at DESC LIMIT 1
+                ORDER BY ID DESC LIMIT 1
             ''')
             row = self.connObj.getCursor().fetchall();
         except:
