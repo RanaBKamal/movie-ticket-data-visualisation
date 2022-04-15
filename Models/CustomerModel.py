@@ -60,7 +60,7 @@ class Customer:
                 DELETE FROM Customers
                 WHERE
                 id = ?;
-            ''', (customer_id_id,))
+            ''', (customer_id,))
             self.connObj.commitChanges()
         except:
             return False

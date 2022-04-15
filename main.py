@@ -7,20 +7,58 @@ from Models.CustomerModel import Customer
 from Models.MovieModel import Movie
 from Utils.MovieSeatHelper import MovieSeatHelper
 from Models.TicketModel import Ticket
+from Visualisation.Visualisation import Visualisation
 
+
+# bar graph here
+import matplotlib.pyplot as plt
+# make data
+# x = np.array(["Male", "Female", "Other"])
+# y = np.array([20, 30, 4])
+# plt.bar(x, y)
+# plt.show()
+#
+# # pie
+# y = np.array([35, 25, 25])
+# myLabels = ["Male", "Female", "Other"]
+#
+# plt.pie(y, labels=myLabels)
+# plt.show()
+#
+# ypoints = np.array([3, 8, 7, 10])
+#
+# plt.plot(ypoints, linestyle = 'dotted')
+# plt.show()
+
+
+# visualisation based on movie type
 connectionObject = Connection("Database/database.db")
+visualisation = Visualisation(connectionObject)
+movies_by_type = visualisation.getMoviesByCategory()
+mov_x_array = []
+mov_y_array = []
+
+for item in movies_by_type:
+    mov_x_array.append(item[0])
+    mov_y_array.append(item[1])
+mov_x_np = np.array(mov_x_array)
+mov_y_np = np.array(mov_y_array)
+plt.title("Visualisation by Movie Type")
+plt.bar(mov_x_np, mov_y_np, )
+plt.show()
 
 customerModel = Customer(connectionObject)
 movieModel = Movie(connectionObject)
 # print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
-current_movie = movieModel.getLatestMovie()
+# current_movie = movieModel.getLatestMovie()
+#
+# if current_movie:
+#     seatStringArray = current_movie[0][2]
+# else:
+#     seatStringArray = "[]";
+# seatArray = MovieSeatHelper.convertStringArrayToArray(seatStringArray)
+# print(seatArray)
 
-if current_movie:
-    seatStringArray = current_movie[0][2]
-else:
-    seatStringArray = "[]";
-seatArray = MovieSeatHelper.convertStringArrayToArray(seatStringArray)
-print(seatArray)
 
 
 # creating tickets model
