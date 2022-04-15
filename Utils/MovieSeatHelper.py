@@ -40,7 +40,7 @@ class MovieSeatHelper:
         for i in range(10):
             for j in range(6):
                 if i == row and j == col:
-                    seat_status_array[position_counter] = True
+                    seat_status_array[position_counter] = 1
                     break_out_flag = True
                     break
                 position_counter += 1
