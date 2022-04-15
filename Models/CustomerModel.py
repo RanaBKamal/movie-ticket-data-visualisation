@@ -81,6 +81,20 @@ class Customer:
         else:
             return row
 
+    #method to get data by email
+    def getDataByEmail(self, email):
+        try:
+            self.connObj.getCursor().execute('''
+                SELECT * FROM Customers
+                WHERE
+                email = ?;
+            ''', (email,))
+            row = self.connObj.getCursor().fetchall();
+        except:
+            return False
+        else:
+            return row
+
     # function to get all data
     def getAllData(self):
         try:

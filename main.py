@@ -5,6 +5,7 @@ from Models.ConnectionModel import Connection
 from Models.UserModel import User
 from Models.CustomerModel import Customer
 from Models.MovieModel import Movie
+from Models.CommonModel import Common
 from Utils.MovieSeatHelper import MovieSeatHelper
 from Models.TicketModel import Ticket
 from Visualisation.Visualisation import Visualisation
@@ -33,21 +34,28 @@ import matplotlib.pyplot as plt
 
 # visualisation based on movie type
 connectionObject = Connection("Database/database.db")
-visualisation = Visualisation(connectionObject)
-movies_by_type = visualisation.getMoviesByCategory()
-mov_x_array = []
-mov_y_array = []
-
-for item in movies_by_type:
-    mov_x_array.append(item[0])
-    mov_y_array.append(item[1])
-mov_x_np = np.array(mov_x_array)
-mov_y_np = np.array(mov_y_array)
-plt.title("Visualisation by Movie Type")
-plt.bar(mov_x_np, mov_y_np, )
-plt.show()
+# visualisation = Visualisation(connectionObject)
+# movies_by_type = visualisation.getMoviesByCategory()
+# mov_x_array = []
+# mov_y_array = []
+#
+# for item in movies_by_type:
+#     mov_x_array.append(item[0])
+#     mov_y_array.append(item[1])
+# mov_x_np = np.array(mov_x_array)
+# mov_y_np = np.array(mov_y_array)
+# plt.title("Visualisation by Movie Type")
+# plt.bar(mov_x_np, mov_y_np, )
+# plt.show()
 
 customerModel = Customer(connectionObject)
+# customerModel.insertData("test test", "testtest4@gmail", "lamo", 34)
+# print(customerModel.getDataByEmail("testtest4@gmail"))
+commonModel = Common(connectionObject)
+if(commonModel.bookCustomerTicket("test test","testtest55@gtest", "Male", 44, 1, "Gold", 400, 4, 4, 1)):
+    print("success")
+else:
+    print("failed")
 movieModel = Movie(connectionObject)
 # print(movieModel.createNewMovie("XXX", "ACTION", "image/img.JPG", date.today()))
 # current_movie = movieModel.getLatestMovie()
