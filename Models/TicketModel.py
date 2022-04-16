@@ -23,8 +23,7 @@ class Ticket:
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (movie_id) 	REFERENCES Movies(id),
                     FOREIGN KEY (customer_id) REFERENCES Customers(id),
-                    FOREIGN KEY (user_id) REFERENCES Users(id)
-                );
+                    FOREIGN KEY (user_id) REFERENCES Users(id));
                 ''')
             self.connObj.commitChanges()
         except:

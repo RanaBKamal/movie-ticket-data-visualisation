@@ -1,7 +1,6 @@
 # Author(Team) : Kamal_Sandip_Chiranjibi
 # Written For : Term Project Python II, W22
 # Description: this is the model/class to access the Users table
-
 from Utils.MovieSeatHelper import MovieSeatHelper
 class Movie:
     connObj = None
@@ -21,8 +20,7 @@ class Movie:
                         movie_image VARCHAR(100),
                         release_date DATE NOT NULL,
                         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                    );
+                        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP);
                 ''')
             self.connObj.commitChanges()
         except:

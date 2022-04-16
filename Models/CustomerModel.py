@@ -1,7 +1,6 @@
-# Author(Team) : Kamal_Sandip_Chiranjibi
+# Author(Team) : Chiranjibi, Kamal, Sandip
 # Written For : Term Project Python II, W22
 # Description: this is the model/class to access the Users table
-
 class Customer:
     connObj = None
 
