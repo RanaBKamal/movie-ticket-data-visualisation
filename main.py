@@ -34,7 +34,8 @@ import matplotlib.pyplot as plt
 
 # visualisation based on movie type
 connectionObject = Connection("Database/database.db")
-# visualisation = Visualisation(connectionObject)
+visualisation = Visualisation(connectionObject)
+visualisation.visualizeByMovieCategory()
 # movies_by_type = visualisation.getMoviesByCategory()
 # mov_x_array = []
 # mov_y_array = []
@@ -52,7 +53,7 @@ customerModel = Customer(connectionObject)
 # customerModel.insertData("test test", "testtest4@gmail", "lamo", 34)
 # print(customerModel.getDataByEmail("testtest4@gmail"))
 commonModel = Common(connectionObject)
-if(commonModel.bookCustomerTicket("test test","testtest55@gtest", "Male", 44, 1, "Gold", 400, 4, 4, 1)):
+if(commonModel.bookCustomerTicket("test test","testtest55@gtest", "Male", 44, 11, "Gold", 400, 4, 4, 1)):
     print("success")
 else:
     print("failed")
