@@ -10,6 +10,8 @@ from Models.ConnectionModel import Connection
 from Utils.MovieSeatHelper import MovieSeatHelper
 import uuid
 import os
+from Models.CommonModel import Common
+import random
 
 connectionObject = Connection("../Database/database.db")
 
@@ -143,6 +145,24 @@ class AppWindow:
         self.open_main_window()
 
     def open_main_window(self):
+        global current_movie_img
+        global current_img
+        global current_movie_id
+        global cuurent_movie
+
+        def poster_refresher():
+            movieModel = Movie(connectionObject)
+            current_movie = movieModel.getLatestMovie()
+            current_movie_img = Image.open(os.path.abspath(current_movie[0][7]))
+            current_img = ImageTk.PhotoImage(current_movie_img)
+            current_name = current_movie[0][1]
+
+            self.current_movie_image_label.configure(image=current_img)
+            self.current_movie_image_label.image = current_img
+            self.current_movie_name_label.configure(text=current_name)
+
+            self.current_movie_image_label.after(1200, poster_refresher)
+
         # movie frame
         self.movie_frame = Frame(self.master, bg="white")
         self.movie_frame.grid(row=0, column=0, padx=20, pady=20,sticky="nw")
@@ -169,7 +189,7 @@ class AppWindow:
         self.seat_frame = Frame(self.master, bg="white")
         self.seat_frame.grid(row=0, column=1, padx=20, pady=20,sticky="e")
 
-        self.book_movie_label = Label(self.seat_frame, text="Click on movie seat below to book movie ticket!", fg="#095e79", bg="white")
+        self.book_movie_label = Label(self.seat_frame, text="Click on movie seat below to book movie ticket!", fg="#095e79", bg="white",font='Helvetica 14 bold')
         self.book_movie_label.grid(row=0, column=0, padx=10, pady=10, columnspan=10)
 
         # querying latest movie and displaying image, movie name, type, release date, and seat status
@@ -185,29 +205,36 @@ class AppWindow:
         for i in range(6):
             for j in range(10):
                 if seatArray[current_state] == 0:
-                    self.movie_seat_btn = Button(self.seat_frame,state=NORMAL,command=self.book_movie_screen,width=8,height=2,text=(i*10)+1 +j,bg="green",fg="white")
-                    self.movie_seat_btn.grid(row=i+1, column=j, padx=5, pady=5)
-                else:
-                    self.movie_seat_btn = Button(self.seat_frame, state=NORMAL, command=self.book_movie_screen, width=8,
-                                                 height=2, text=(i * 10) + 1 + j, bg="red", fg="white")
-                    self.movie_seat_btn['state']=DISABLED
+                    self.movie_seat_btn = Button(self.seat_frame, state=NORMAL,
+                                                 command=lambda x=i, y=j: self.book_movie_screen(x, y), width=8,
+                                                 height=2, text=(i * 10) + 1 + j, bg="green", fg="white")
                     self.movie_seat_btn.grid(row=i + 1, column=j, padx=5, pady=5)
-
+                else:
+                    self.movie_seat_btn = Button(self.seat_frame, state=NORMAL, command=self.book_movie_screen,
+                                                 width=8,
+                                                 height=2, text=(i * 10) + 1 + j, bg="red", fg="white")
+                    self.movie_seat_btn['state'] = DISABLED
+                    self.movie_seat_btn.grid(row=i + 1, column=j, padx=5, pady=5)
                 current_state += 1
+
+
 
         # movie poster frame
         self.movie_poster_frame = Frame(self.master, bg="white")
         self.movie_poster_frame.grid(row=0, column=2, padx=5, pady=20,sticky="ne")
 
-        global current_movie_img
-        global current_img
-        global current_movie_id
         current_movie_img = Image.open(os.path.abspath(current_movie[0][7]))
-        current_movie_id = current_movie[0][0]
-        print(os.path.abspath(current_movie[0][7]))
         current_img = ImageTk.PhotoImage(current_movie_img)
+        current_name = current_movie[0][1]
+        current_movie_id = current_movie[0][0]
+
+        self.current_movie_release_label = Label(self.movie_poster_frame, text='Now showing...', bg="white", fg='red',font='Helvetica 16 bold')
+        self.current_movie_release_label.grid(row=0, column=0, sticky="ns,ew", padx=10, pady=5)
         self.current_movie_image_label = Label(self.movie_poster_frame, image=current_img, bg="white")
-        self.current_movie_image_label.grid(row=0, column=0, sticky="ns,ew", padx=10, pady=5)
+        self.current_movie_image_label.grid(row=1, column=0, sticky="ns,ew", padx=10, pady=5)
+        self.current_movie_image_label.after(1200, poster_refresher)
+        self.current_movie_name_label = Label(self.movie_poster_frame, text=current_name, bg="white", fg='black',font='Helvetica 18 bold')
+        self.current_movie_name_label.grid(row=2, column=0, sticky="ns,ew", padx=10, pady=5)
 
     def add_movie_screen(self):
         def add_movie():
@@ -267,7 +294,7 @@ class AppWindow:
         self.add_movie_btn = Button(self.add_movie_window, command=add_movie,text="Add Movie",bg="#095e79",fg="white")
         self.add_movie_btn.grid(row=9, column=0, sticky="ns,ew",padx=10, pady=10)
 
-    def book_movie_screen(self):
+    def book_movie_screen(self, seatPosX, seatPosY):
         def book_movie():
             booked_user_name = self.book_movie_name.get()
             booked_user_email = self.book_movie_email.get()
@@ -275,7 +302,15 @@ class AppWindow:
             booked_user_age = self.book_movie_age.get()
             booked_ticket_type = self.book_movie_tickettype.get()
             booked_ticket_price = self.book_movie_ticketprice.get()
+            user_id = random.randint(1,3)
             print(current_movie_id,booked_user_name,booked_user_email,booked_user_gender,booked_user_age,booked_ticket_type,booked_ticket_price)
+
+            common = Common(connectionObject)
+            if(common.bookCustomerTicket(booked_user_name,booked_user_email,booked_user_gender,booked_user_age,current_movie_id,booked_ticket_type,booked_ticket_price,seatPosX,seatPosY,user_id)):
+                messagebox.showinfo("Ticket Booked!",f"Your ticket for seat {(seatPosX*10)+1 +seatPosY} is booked successfully")
+
+            else:
+                messagebox.showerror("Error!","Cannot book the seat!")
 
         self.book_movie_window = Toplevel(self.seat_frame)
         self.book_movie_window.title("Book Movie Ticket")
@@ -321,7 +356,6 @@ class AppWindow:
         self.book_movie_ticketprice_entry.grid(row=12, column=0, padx=10, pady=5, sticky="ns,ew", ipady=5)
         self.book_movie_btn = Button(self.book_movie_window, command=book_movie, text="Add Movie", bg="#095e79",fg="white")
         self.book_movie_btn.grid(row=13, column=0, sticky="ns,ew", padx=10, pady=10)
-
 
 if __name__ == "__main__":
     main()
