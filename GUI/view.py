@@ -12,6 +12,7 @@ import uuid
 import os
 from Models.CommonModel import Common
 import random
+from Visualisation.Visualisation import Visualisation
 
 connectionObject = Connection("../Database/database.db")
 
@@ -172,18 +173,21 @@ class AppWindow:
 
         # data visualisation frame
         self.visualisation_frame = Frame(self.master, bg="white")
-        self.visualisation_frame.grid(row=0, column=0, padx=20, pady=20)
+        self.visualisation_frame.grid(row=0, column=0, padx=20,pady=10)
 
-        self.visualisation_label = Label(self.visualisation_frame, text="Data Visualisation",fg="#095e79", bg="white")
-        self.visualisation_label.grid(row=0, column=0, padx=10, pady=10, columnspan=10)
-        self.age_based_btn = Button(self.visualisation_frame,command="",width=25,text="Age Based",bg="#095e79",fg="white")
+        visualisation = Visualisation(connectionObject)
+        self.visualisation_label = Label(self.visualisation_frame,text="Data Visualisation",fg="#095e79", bg="white")
+        self.visualisation_label.grid(row=0, column=0, padx=10, pady=10)
+        self.age_based_btn = Button(self.visualisation_frame,command=visualisation.visualizeCustomersByAgeGroup,width=25,text="Age Based",bg="#095e79",fg="white")
         self.age_based_btn.grid(row=1,column=0,padx=10, pady=10)
-        self.gender_based_btn = Button(self.visualisation_frame, command="", width=25, text="Gender Based", bg="#095e79",fg="white")
+        self.gender_based_btn = Button(self.visualisation_frame, command=visualisation.visualiseCustomersByGender, width=25, text="Gender Based", bg="#095e79",fg="white")
         self.gender_based_btn.grid(row=2, column=0, padx=10, pady=10)
-        self.tickettype_based_btn = Button(self.visualisation_frame, command="", width=25, text="Ticket Type Based",bg="#095e79", fg="white")
+        self.tickettype_based_btn = Button(self.visualisation_frame, command=visualisation.visualizeTicketsByType, width=25, text="Ticket Type Based",bg="#095e79", fg="white")
         self.tickettype_based_btn.grid(row=3, column=0, padx=10, pady=10)
-        self.movietype_based_btn = Button(self.visualisation_frame, command="", width=25, text="Movie Type Based", bg="#095e79", fg="white")
+        self.movietype_based_btn = Button(self.visualisation_frame, command=visualisation.visualizeByMovieCategory, width=25, text="Movie Type Based", bg="#095e79", fg="white")
         self.movietype_based_btn.grid(row=4, column=0, padx=10, pady=10)
+        self.ticketdate_based_btn = Button(self.visualisation_frame, command=visualisation.visualiseTicketsByDate,width=25, text="Ticket Date Based", bg="#095e79", fg="white")
+        self.ticketdate_based_btn.grid(row=5, column=0, padx=10, pady=10)
 
         # movie seat frame
         self.seat_frame = Frame(self.master, bg="white")
@@ -359,4 +363,5 @@ class AppWindow:
 
 if __name__ == "__main__":
     main()
+    connectionObject.closeConnection()
 
