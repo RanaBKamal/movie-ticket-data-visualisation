@@ -129,16 +129,18 @@ class LoginWindow:
         email=self.signup_email.get()
         password=self.signup_password.get()
         re_password=self.signup_confirm_password.get()
-        if user.insertData(fullname,username,email,password,"ADMIN"):
-            messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in. Please go back to login page for login.')
-            self.fullname_entry.delete(0, END)
-            self.email_entry.delete(0, END)
-            self.username_entry.delete(0, END)
-            self.password_entry.delete(0, END)
-            self.confirm_password_entry.delete(0, END)
+        if(password==re_password):
+            if user.insertData(fullname,username,email,password,"ADMIN"):
+                messagebox.showinfo('Signup Successfull!','Congrats! You are now signed in. Please go back to login page for login.')
+                self.fullname_entry.delete(0, END)
+                self.email_entry.delete(0, END)
+                self.username_entry.delete(0, END)
+                self.password_entry.delete(0, END)
+                self.confirm_password_entry.delete(0, END)
+            else:
+                messagebox.showerror("Signup Failed!","User not created.")
         else:
-            messagebox.showerror("Signup Failed!","User not created.")
-
+            messagebox.showerror("Signup Failed!", "Please check password.")
 
 class AppWindow:
     def __init__(self,master):
